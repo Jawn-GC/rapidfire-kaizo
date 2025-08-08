@@ -1,0 +1,92 @@
+\-altar_room_chance                      0
+\-back_room_chance                       0
+\-back_room_hidden_door_cache_chance     0
+\-back_room_hidden_door_chance           0
+\-back_room_interconnection_chance       0
+\-background_chance                      0
+\-flagged_liquid_rooms                   0
+\-floor_bottom_spread_chance             0
+\-floor_side_spread_chance               0
+\-ground_background_chance               0
+\-idol_room_chance                       0
+\-machine_bigroom_chance                 0
+\-machine_rewardroom_chance              0
+\-machine_tallroom_chance                0
+\-machine_wideroom_chance                0
+\-max_liquid_particles                   0
+\-mount_chance                           0
+\-size                                   2 2
+
+\?floor                            1
+\?empty                            0
+\?floor_hard                       X
+\?temple_floor                     !
+\?chain                            "
+\?entrance                         #
+\?crushtraplarge                   $
+\?lava                             %
+\?crushtrap                        &
+\?chain_block                      '
+\?platform                         (
+\?bone_block                       )
+\?push_block                       *
+\?turkey                           +
+\?thorn_vine                       ,
+\?exit                             -
+\?centered_lava                    .
+\?conveyorbelt_left                2
+\?conveyorbelt_right               3
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+\.setroom0_0   // temple
+////////////////////////////////////////////////////////////////////////////////
+
+1111111!!!
+111111!!!+
+!!11!!!!!*
+!!!!!!!!!)
+!!!!!!!!!)
+!!00000!!)
+!!0#000!&)
+!!!!!00!!)
+
+////////////////////////////////////////////////////////////////////////////////
+\.setroom0_1   // temple
+////////////////////////////////////////////////////////////////////////////////
+
+!!!1111111
+!!!!!11!1!
+!!!!!!!!!!
+!!!000!!!!
+!!00-00!!!
+!!(((((!!!
+.0000000!!
+3200000!!!
+
+////////////////////////////////////////////////////////////////////////////////
+\.setroom1_0   // temple
+////////////////////////////////////////////////////////////////////////////////
+
+!!!!!00"!)
+!!!$000"((
+!!!0000"00
+!!!!!00"00
+1!!!!%0%0%
+1!1!!%%%%%
+1111!!!!!!
+11111!!!!!
+
+////////////////////////////////////////////////////////////////////////////////
+\.setroom1_1   // temple
+////////////////////////////////////////////////////////////////////////////////
+
+!"00000!!!
+("000000!!
+0"000000!!
+0"00000!!!
+0%0%0%0!!!
+%%%%%%%!!!
+!!!!!!!!!!
+!!!!!!!!!!

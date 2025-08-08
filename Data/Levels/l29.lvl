@@ -1,0 +1,89 @@
+\-altar_room_chance                      0
+\-back_room_chance                       0
+\-back_room_hidden_door_cache_chance     0
+\-back_room_hidden_door_chance           0
+\-back_room_interconnection_chance       0
+\-background_chance                      0
+\-flagged_liquid_rooms                   0
+\-floor_bottom_spread_chance             0
+\-floor_side_spread_chance               0
+\-ground_background_chance               0
+\-idol_room_chance                       0
+\-machine_bigroom_chance                 0
+\-machine_rewardroom_chance              0
+\-machine_tallroom_chance                0
+\-machine_wideroom_chance                0
+\-max_liquid_particles                   0
+\-mount_chance                           0
+\-size                                   2 2
+
+\?floor                            1
+\?empty                            0
+\?floor_hard                       X
+\?entrance                         !
+\?exit                             "
+\?nonreplaceable_babylon_floor     #
+\?forcefield_right                 $
+\?forcefield_left                  %
+\?thorn_vine                       &
+\?push_block                       '
+\?spring_trap                      (
+\?lava                             )
+\?pagoda_platform                  *
+\?bone_block                       +
+\?forcefield_right_top             ,
+\?forcefield_left_top              -
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+\.setroom0_0   // volcano
+////////////////////////////////////////////////////////////////////////////////
+
+1111111111
+110001111#
+110000001#
+110&00000#
+#10&000000
+##0#000000
+##0#00000#
+##0$00'00%
+
+////////////////////////////////////////////////////////////////////////////////
+\.setroom0_1   // volcano
+////////////////////////////////////////////////////////////////////////////////
+
+1111111111
+1#11100011
+##11100011
+0#11$0"0,1
+00111***11
+!01110001#
+###11000##
+##11-0(0%#
+
+////////////////////////////////////////////////////////////////////////////////
+\.setroom1_0   // volcano
+////////////////////////////////////////////////////////////////////////////////
+
+##0*00000*
+#+00000000
+#+0000(000
+##0000#000
+##))))#)))
+##))))#)))
+####11#111
+###1111111
+
+////////////////////////////////////////////////////////////////////////////////
+\.setroom1_1   // volcano
+////////////////////////////////////////////////////////////////////////////////
+
+0*111***##
+00000000##
+00000000##
+00##$0(0,#
+))###111##
+))1##11111
+111#111111
+1111111111
