@@ -1,12 +1,12 @@
 local level_var = {
-    identifier = "l43",
-    title = "Floor 43",
-    theme = THEME.DWELLING,
+    identifier = "l54",
+    title = "Floor 54",
+    theme = THEME.TIDE_POOL,
     world = 1,
-	level = 43,
-	width = 2,
+	level = 54,
+	width = 3,
     height = 2,
-    file_name = "l43.lvl",
+    file_name = "l54.lvl",
 }
 
 local level_state = {
@@ -33,18 +33,18 @@ level_var.load_level = function()
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity:destroy()
 	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.ITEM_BONES)
-	
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
-		entity:destroy()
-	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.DECORATION_HANGING_HIDE)
-
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
-		entity.flags = set_flag(entity.flags, 6)
-    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOORSTYLED_MINEWOOD)
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
 		entity.flags = set_flag(entity.flags, 6)
     end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_GENERIC)
+
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+		entity.flags = set_flag(entity.flags, 6)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOORSTYLED_PAGODA)
+
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+		entity.flags = set_flag(entity.flags, 6)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_THORN_VINE)
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
 		entity.flags = set_flag(entity.flags, 6)
@@ -54,35 +54,34 @@ level_var.load_level = function()
 		entity.flags = set_flag(entity.flags, 6)
     end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_CONVEYORBELT_RIGHT)
 
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
-		entity.flags = set_flag(entity.flags, 6)
-    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_THORN_VINE)
-
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity:give_powerup(ENT_TYPE.ITEM_POWERUP_SPIKE_SHOES)
-	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_HORNEDLIZARD)
-
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
-		entity:give_powerup(ENT_TYPE.ITEM_POWERUP_SPIKE_SHOES)
-	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_SNAKE)
-
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
-		entity:tame(true)
 		entity:set_cursed(true, false)
-	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MOUNT_TURKEY)
+		entity.flags = clr_flag(entity.flags, ENT_FLAG.FACING_LEFT)
+	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_OCTOPUS)
 
-	local frames = 0
-	level_state.callbacks[#level_state.callbacks+1] = set_callback(function ()	
-		frames = frames + 1
-    end, ON.FRAME)
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+        -- Remove Hermitcrabs
+        local x, y, layer = get_position(entity.uid)
+        local floor = get_entities_at(0, MASK.ANY, x, y, layer, 1)
+        if #floor > 0 then
+            entity.flags = set_flag(entity.flags, ENT_FLAG.INVISIBLE)
+            entity:destroy()
+        end
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_HERMITCRAB)
 	
+	local frames = 0
+	level_state.callbacks[#level_state.callbacks+1] = set_callback(function ()
+		frames = frames + 1		
+    end, ON.FRAME)
+
 	toast(level_var.title)
 	
 end
 
 level_var.unload_level = function()
     if not level_state.loaded then return end
-	
+
     local callbacks_to_clear = level_state.callbacks
     level_state.loaded = false
     level_state.callbacks = {}

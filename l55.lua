@@ -1,12 +1,12 @@
 local level_var = {
-    identifier = "l43",
-    title = "Floor 43",
-    theme = THEME.DWELLING,
+    identifier = "l55",
+    title = "Floor 55",
+    theme = THEME.TEMPLE,
     world = 1,
-	level = 43,
-	width = 2,
-    height = 2,
-    file_name = "l43.lvl",
+	level = 55,
+	width = 3,
+    height = 3,
+    file_name = "l55.lvl",
 }
 
 local level_state = {
@@ -20,10 +20,6 @@ level_var.load_level = function()
 	
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity:destroy()
-	end, SPAWN_TYPE.SYSTEMIC, 0, ENT_TYPE.ITEM_PICKUP_SKELETON_KEY)
-	
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
-		entity:destroy()
 	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_SKELETON)
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
@@ -33,19 +29,15 @@ level_var.load_level = function()
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity:destroy()
 	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.ITEM_BONES)
-	
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
-		entity:destroy()
-	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.DECORATION_HANGING_HIDE)
-
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
-		entity.flags = set_flag(entity.flags, 6)
-    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOORSTYLED_MINEWOOD)
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
 		entity.flags = set_flag(entity.flags, 6)
     end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_GENERIC)
 
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+		entity.flags = set_flag(entity.flags, 6)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_THORN_VINE)
+	
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
 		entity.flags = set_flag(entity.flags, 6)
     end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_CONVEYORBELT_LEFT)
@@ -56,20 +48,16 @@ level_var.load_level = function()
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
 		entity.flags = set_flag(entity.flags, 6)
-    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_THORN_VINE)
-
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
-		entity:give_powerup(ENT_TYPE.ITEM_POWERUP_SPIKE_SHOES)
-	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_HORNEDLIZARD)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOORSTYLED_TEMPLE)
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity:give_powerup(ENT_TYPE.ITEM_POWERUP_SPIKE_SHOES)
 	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_SNAKE)
 
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
-		entity:tame(true)
-		entity:set_cursed(true, false)
-	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MOUNT_TURKEY)
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+        entity:tame(true)
+		entity.health = 1
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MOUNT_TURKEY)
 
 	local frames = 0
 	level_state.callbacks[#level_state.callbacks+1] = set_callback(function ()	
@@ -82,7 +70,7 @@ end
 
 level_var.unload_level = function()
     if not level_state.loaded then return end
-	
+
     local callbacks_to_clear = level_state.callbacks
     level_state.loaded = false
     level_state.callbacks = {}

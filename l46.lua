@@ -56,7 +56,7 @@ level_var.load_level = function()
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity:give_powerup(ENT_TYPE.ITEM_POWERUP_SPIKE_SHOES)
-		entity:set_cursed(true)
+		entity:set_cursed(true, false)
 		entity.flags = clr_flag(entity.flags, ENT_FLAG.FACING_LEFT)
 	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_OCTOPUS)
 

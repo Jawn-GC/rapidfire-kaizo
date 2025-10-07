@@ -17,7 +17,9 @@ local level_state = {
 level_var.load_level = function()
     if level_state.loaded then return end
     level_state.loaded = true
-	
+
+	replace_drop(DROP.MOLE_MATTOCK, ENT_TYPE.ITEM_BLOOD)
+
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity:destroy()
 	end, SPAWN_TYPE.SYSTEMIC, 0, ENT_TYPE.ITEM_PICKUP_SKELETON_KEY)
@@ -52,7 +54,7 @@ level_var.load_level = function()
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity:give_powerup(ENT_TYPE.ITEM_POWERUP_SPIKE_SHOES)
-		entity:set_cursed(true)
+		entity:set_cursed(true, false)
 	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_MOLE)
 	
 	local frames = 0
@@ -66,6 +68,8 @@ end
 
 level_var.unload_level = function()
     if not level_state.loaded then return end
+	
+	replace_drop(DROP.MOLE_MATTOCK, ENT_TYPE.ITEM_MATTOCK)
 	
     local callbacks_to_clear = level_state.callbacks
     level_state.loaded = false

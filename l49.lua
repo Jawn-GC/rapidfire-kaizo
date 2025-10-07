@@ -62,7 +62,7 @@ level_var.load_level = function()
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity.flags = set_flag(entity.flags, ENT_FLAG.FACING_LEFT)
 		entity:give_powerup(ENT_TYPE.ITEM_POWERUP_SPIKE_SHOES)
-		entity:set_cursed(true)
+		entity:set_cursed(true, false)
 		local held_item = get_entity(entity.uid).holding_uid
 		drop(entity.uid, held_item)
 		get_entity(held_item):destroy()

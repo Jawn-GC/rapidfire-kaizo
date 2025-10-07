@@ -1,12 +1,12 @@
 local level_var = {
-    identifier = "l43",
-    title = "Floor 43",
-    theme = THEME.DWELLING,
+    identifier = "l51",
+    title = "Floor 51",
+    theme = THEME.VOLCANA,
     world = 1,
-	level = 43,
+	level = 51,
 	width = 2,
-    height = 2,
-    file_name = "l43.lvl",
+    height = 5,
+    file_name = "l51.lvl",
 }
 
 local level_state = {
@@ -17,11 +17,7 @@ local level_state = {
 level_var.load_level = function()
     if level_state.loaded then return end
     level_state.loaded = true
-	
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
-		entity:destroy()
-	end, SPAWN_TYPE.SYSTEMIC, 0, ENT_TYPE.ITEM_PICKUP_SKELETON_KEY)
-	
+
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity:destroy()
 	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_SKELETON)
@@ -33,19 +29,39 @@ level_var.load_level = function()
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity:destroy()
 	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.ITEM_BONES)
-	
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
-		entity:destroy()
-	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.DECORATION_HANGING_HIDE)
 
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
-		entity.flags = set_flag(entity.flags, 6)
-    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOORSTYLED_MINEWOOD)
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
+		entity.x = entity.x + 0.5
+	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.ITEM_TELESCOPE)
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
 		entity.flags = set_flag(entity.flags, 6)
     end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_GENERIC)
 
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+        -- Remove Magmamen.
+        local x, y, layer = get_position(entity.uid)
+        local lavas = get_entities_at(0, MASK.LAVA, x, y, layer, 1)
+        if #lavas > 0 then
+            entity.flags = set_flag(entity.flags, ENT_FLAG.INVISIBLE)
+            move_entity(entity.uid, 1000, 0, 0, 0)
+        end
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_MAGMAMAN)
+	
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+        -- Remove Firebugs.
+        local x, y, layer = get_position(entity.uid)
+        local chains = get_entities_at(0, MASK.ANY, x, y, layer, 1)
+        if #chains > 0 then
+            entity.flags = set_flag(entity.flags, ENT_FLAG.INVISIBLE)
+            move_entity(entity.uid, 1000, 0, 0, 0)
+        end
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_FIREBUG)
+
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+		entity.flags = set_flag(entity.flags, 6)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_THORN_VINE)
+	
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
 		entity.flags = set_flag(entity.flags, 6)
     end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_CONVEYORBELT_LEFT)
@@ -56,23 +72,10 @@ level_var.load_level = function()
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
 		entity.flags = set_flag(entity.flags, 6)
-    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_THORN_VINE)
-
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
-		entity:give_powerup(ENT_TYPE.ITEM_POWERUP_SPIKE_SHOES)
-	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_HORNEDLIZARD)
-
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
-		entity:give_powerup(ENT_TYPE.ITEM_POWERUP_SPIKE_SHOES)
-	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_SNAKE)
-
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
-		entity:tame(true)
-		entity:set_cursed(true, false)
-	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MOUNT_TURKEY)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOORSTYLED_BABYLON)
 
 	local frames = 0
-	level_state.callbacks[#level_state.callbacks+1] = set_callback(function ()	
+	level_state.callbacks[#level_state.callbacks+1] = set_callback(function ()
 		frames = frames + 1
     end, ON.FRAME)
 	
@@ -82,7 +85,7 @@ end
 
 level_var.unload_level = function()
     if not level_state.loaded then return end
-	
+
     local callbacks_to_clear = level_state.callbacks
     level_state.loaded = false
     level_state.callbacks = {}

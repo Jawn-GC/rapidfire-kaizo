@@ -46,10 +46,14 @@ level_var.load_level = function()
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
 		entity.flags = set_flag(entity.flags, 6)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_THORN_VINE)
+	
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+		entity.flags = set_flag(entity.flags, 6)
     end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_GENERIC)
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
-		entity:set_cursed(true)
+		entity:set_cursed(true, false)
 		entity.flags = clr_flag(entity.flags, ENT_FLAG.FACING_LEFT)
     end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_MOLE)
 
