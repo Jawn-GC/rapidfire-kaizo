@@ -1,11 +1,11 @@
 meta = {
     name = 'Rapidfire Kaizo',
-	description = "55 Quick Kaizo Levels",
-    version = '1.2',
+	description = "60 Quick Kaizo Levels",
+    version = '1.4',
     author = 'JawnGC',
 }
 
-register_option_int("level_selected", "Level number for shortcut door (1 to 55)", 1, 1, 50)
+register_option_int("level_selected", "Level number for shortcut door (1 to 60)", 1, 1, 60)
 
 local level_sequence = require("LevelSequence/level_sequence")
 local telescopes = require("Telescopes/telescopes")
@@ -23,7 +23,7 @@ local save_data
 local save_context
 
 --Levels
-local number_of_levels = 55
+local number_of_levels = 62
 local level_base_name = "l"
 
 local levels = {}

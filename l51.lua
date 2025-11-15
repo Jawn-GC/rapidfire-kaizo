@@ -20,6 +20,10 @@ level_var.load_level = function()
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity:destroy()
+	end, SPAWN_TYPE.SYSTEMIC, 0, ENT_TYPE.ITEM_PICKUP_SKELETON_KEY)
+
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
+		entity:destroy()
 	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_SKELETON)
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)

@@ -1,12 +1,12 @@
 local level_var = {
-    identifier = "l55",
-    title = "Floor 55",
+    identifier = "l60",
+    title = "Floor 60",
     theme = THEME.TEMPLE,
     world = 1,
-	level = 55,
-	width = 3,
-    height = 3,
-    file_name = "l55.lvl",
+	level = 60,
+	width = 2,
+    height = 6,
+    file_name = "l60.lvl",
 }
 
 local level_state = {
@@ -17,6 +17,10 @@ local level_state = {
 level_var.load_level = function()
     if level_state.loaded then return end
     level_state.loaded = true
+
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
+		entity.x = entity.x + 0.5
+	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.ITEM_TELESCOPE)
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity:destroy()
@@ -58,14 +62,23 @@ level_var.load_level = function()
 		entity:give_powerup(ENT_TYPE.ITEM_POWERUP_SPIKE_SHOES)
 	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_SNAKE)
 
-	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
-        entity:tame(true)
-		entity.health = 1
-    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MOUNT_TURKEY)
-
+	--Tiamat Bubbles
+	define_tile_code("bubble")
+	local bubble_xy = {}
+	level_state.callbacks[#level_state.callbacks+1] = set_pre_tile_code_callback(function(x, y, layer)
+		bubble_xy[#bubble_xy + 1] = {x,y}
+		return true
+	end, "bubble")
+	
 	local frames = 0
-	level_state.callbacks[#level_state.callbacks+1] = set_callback(function ()	
-		frames = frames + 1
+	level_state.callbacks[#level_state.callbacks+1] = set_callback(function ()
+		if frames % 150 == 0 then
+			for i = 1,#bubble_xy do
+				spawn(ENT_TYPE.ACTIVEFLOOR_BUBBLE_PLATFORM, bubble_xy[i][1], bubble_xy[i][2], 0, 0, 0)
+			end
+		end
+
+        frames = frames + 1
     end, ON.FRAME)
 	
 	toast(level_var.title)
