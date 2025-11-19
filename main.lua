@@ -23,7 +23,7 @@ local save_data
 local save_context
 
 --Levels
-local number_of_levels = 62
+local number_of_levels = 64
 local level_base_name = "l"
 
 local levels = {}
@@ -204,6 +204,12 @@ set_pre_tile_code_callback(function(x, y, layer)
 	local block_id = spawn_entity_snapped_to_floor(ENT_TYPE.ITEM_BOOMERANG, x, y, layer, 0, 0)		
 	return true
 end, "boomer")
+
+define_tile_code("metal_shield")
+set_pre_tile_code_callback(function(x, y, layer)
+	local block_id = spawn_entity_snapped_to_floor(ENT_TYPE.ITEM_METAL_SHIELD, x, y, layer, 0, 0)		
+	return true
+end, "metal_shield")
 
 level_sequence.set_on_win(function(attempts, total_time)
 	local frames = total_time
