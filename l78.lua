@@ -1,12 +1,12 @@
 local level_var = {
-    identifier = "l72",
-    title = "Floor 72",
-    theme = THEME.SUNKEN_CITY,
+    identifier = "l78",
+    title = "Floor 78",
+    theme = THEME.JUNGLE,
     world = 1,
-	level = 72,
+	level = 78,
 	width = 3,
-    height = 3,
-    file_name = "l72.lvl",
+    height = 4,
+    file_name = "l78.lvl",
 }
 
 local level_state = {
@@ -18,10 +18,6 @@ level_var.load_level = function()
     if level_state.loaded then return end
     level_state.loaded = true
 	
-	replace_drop(DROP.EGGSAC_GRUB_1, ENT_TYPE.ITEM_BLOOD)
-	replace_drop(DROP.EGGSAC_GRUB_2, ENT_TYPE.ITEM_BLOOD)
-	replace_drop(DROP.EGGSAC_GRUB_3, ENT_TYPE.ITEM_BLOOD)
-
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity:destroy()
 	end, SPAWN_TYPE.SYSTEMIC, 0, ENT_TYPE.ITEM_PICKUP_SKELETON_KEY)
@@ -44,14 +40,27 @@ level_var.load_level = function()
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
 		entity.flags = set_flag(entity.flags, 6)
-    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOORSTYLED_SUNKEN)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOORSTYLED_STONE)
+
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+		entity.flags = set_flag(entity.flags, 6)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOORSTYLED_MINEWOOD)
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
 		entity.flags = set_flag(entity.flags, 6)
     end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_THORN_VINE)
-	
+
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
+		entity:give_powerup(ENT_TYPE.ITEM_POWERUP_SPIKE_SHOES)
+	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_SNAKE)
+
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
+		entity:give_powerup(ENT_TYPE.ITEM_POWERUP_SPIKE_SHOES)
+		entity.flags = set_flag(entity.flags, ENT_FLAG.FACING_LEFT)
+	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_HORNEDLIZARD)
+
 	local frames = 0
-	level_state.callbacks[#level_state.callbacks+1] = set_callback(function ()
+	level_state.callbacks[#level_state.callbacks+1] = set_callback(function ()	
 		frames = frames + 1
     end, ON.FRAME)
 	
@@ -61,10 +70,6 @@ end
 
 level_var.unload_level = function()
     if not level_state.loaded then return end
-
-	replace_drop(DROP.EGGSAC_GRUB_1, ENT_TYPE.MONS_GRUB)
-	replace_drop(DROP.EGGSAC_GRUB_2, ENT_TYPE.MONS_GRUB)
-	replace_drop(DROP.EGGSAC_GRUB_3, ENT_TYPE.MONS_GRUB)
 	
     local callbacks_to_clear = level_state.callbacks
     level_state.loaded = false

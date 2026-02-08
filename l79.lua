@@ -1,12 +1,12 @@
 local level_var = {
-    identifier = "l72",
-    title = "Floor 72",
-    theme = THEME.SUNKEN_CITY,
+    identifier = "l79",
+    title = "Floor 79",
+    theme = THEME.NEO_BABYLON,
     world = 1,
-	level = 72,
-	width = 3,
-    height = 3,
-    file_name = "l72.lvl",
+	level = 79,
+	width = 2,
+    height = 5,
+    file_name = "l79.lvl",
 }
 
 local level_state = {
@@ -17,10 +17,6 @@ local level_state = {
 level_var.load_level = function()
     if level_state.loaded then return end
     level_state.loaded = true
-	
-	replace_drop(DROP.EGGSAC_GRUB_1, ENT_TYPE.ITEM_BLOOD)
-	replace_drop(DROP.EGGSAC_GRUB_2, ENT_TYPE.ITEM_BLOOD)
-	replace_drop(DROP.EGGSAC_GRUB_3, ENT_TYPE.ITEM_BLOOD)
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity:destroy()
@@ -44,14 +40,37 @@ level_var.load_level = function()
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
 		entity.flags = set_flag(entity.flags, 6)
-    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOORSTYLED_SUNKEN)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOORSTYLED_BABYLON)
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
 		entity.flags = set_flag(entity.flags, 6)
     end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_THORN_VINE)
+
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+		entity.flags = set_flag(entity.flags, 6)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_FORCEFIELD_TOP)
+
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+		entity.flags = set_flag(entity.flags, 6)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_FORCEFIELD)
+
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+		entity.flags = set_flag(entity.flags, 6)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_HORIZONTAL_FORCEFIELD)
+
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+		entity.flags = set_flag(entity.flags, 6)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_HORIZONTAL_FORCEFIELD_TOP)
 	
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
+		entity:give_powerup(ENT_TYPE.ITEM_POWERUP_SPIKE_SHOES)
+	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_SNAKE)
+
 	local frames = 0
 	level_state.callbacks[#level_state.callbacks+1] = set_callback(function ()
+        if frames == 0 then
+			pick_up(players[1].uid, spawn(ENT_TYPE.ITEM_VLADS_CAPE, 0, 0, LAYER.PLAYER, 0, 0))
+		end
 		frames = frames + 1
     end, ON.FRAME)
 	
@@ -61,10 +80,6 @@ end
 
 level_var.unload_level = function()
     if not level_state.loaded then return end
-
-	replace_drop(DROP.EGGSAC_GRUB_1, ENT_TYPE.MONS_GRUB)
-	replace_drop(DROP.EGGSAC_GRUB_2, ENT_TYPE.MONS_GRUB)
-	replace_drop(DROP.EGGSAC_GRUB_3, ENT_TYPE.MONS_GRUB)
 	
     local callbacks_to_clear = level_state.callbacks
     level_state.loaded = false

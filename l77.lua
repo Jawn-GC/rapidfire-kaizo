@@ -1,12 +1,12 @@
 local level_var = {
-    identifier = "l72",
-    title = "Floor 72",
-    theme = THEME.SUNKEN_CITY,
+    identifier = "l77",
+    title = "Floor 77",
+    theme = THEME.VOLCANA,
     world = 1,
-	level = 72,
-	width = 3,
+	level = 77,
+	width = 4,
     height = 3,
-    file_name = "l72.lvl",
+    file_name = "l77.lvl",
 }
 
 local level_state = {
@@ -17,15 +17,11 @@ local level_state = {
 level_var.load_level = function()
     if level_state.loaded then return end
     level_state.loaded = true
-	
-	replace_drop(DROP.EGGSAC_GRUB_1, ENT_TYPE.ITEM_BLOOD)
-	replace_drop(DROP.EGGSAC_GRUB_2, ENT_TYPE.ITEM_BLOOD)
-	replace_drop(DROP.EGGSAC_GRUB_3, ENT_TYPE.ITEM_BLOOD)
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity:destroy()
 	end, SPAWN_TYPE.SYSTEMIC, 0, ENT_TYPE.ITEM_PICKUP_SKELETON_KEY)
-	
+
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
 		entity:destroy()
 	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_SKELETON)
@@ -43,13 +39,41 @@ level_var.load_level = function()
     end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_GENERIC)
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
-		entity.flags = set_flag(entity.flags, 6)
-    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOORSTYLED_SUNKEN)
+        -- Remove Magmamen.
+        local x, y, layer = get_position(entity.uid)
+        local lavas = get_entities_at(0, MASK.LAVA, x, y, layer, 1)
+        if #lavas > 0 then
+            entity.flags = set_flag(entity.flags, ENT_FLAG.INVISIBLE)
+            move_entity(entity.uid, 1000, 0, 0, 0)
+        end
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_MAGMAMAN)
+	
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+        -- Remove Firebugs.
+        local x, y, layer = get_position(entity.uid)
+        local chains = get_entities_at(0, MASK.ANY, x, y, layer, 1)
+        if #chains > 0 then
+            entity.flags = set_flag(entity.flags, ENT_FLAG.INVISIBLE)
+            move_entity(entity.uid, 1000, 0, 0, 0)
+        end
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MONS_FIREBUG)
 
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
 		entity.flags = set_flag(entity.flags, 6)
     end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_THORN_VINE)
 	
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+		entity.flags = set_flag(entity.flags, 6)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_CONVEYORBELT_LEFT)
+
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+		entity.flags = set_flag(entity.flags, 6)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_CONVEYORBELT_RIGHT)
+
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+		entity.flags = set_flag(entity.flags, 6)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOORSTYLED_BABYLON)
+
 	local frames = 0
 	level_state.callbacks[#level_state.callbacks+1] = set_callback(function ()
 		frames = frames + 1
@@ -62,10 +86,6 @@ end
 level_var.unload_level = function()
     if not level_state.loaded then return end
 
-	replace_drop(DROP.EGGSAC_GRUB_1, ENT_TYPE.MONS_GRUB)
-	replace_drop(DROP.EGGSAC_GRUB_2, ENT_TYPE.MONS_GRUB)
-	replace_drop(DROP.EGGSAC_GRUB_3, ENT_TYPE.MONS_GRUB)
-	
     local callbacks_to_clear = level_state.callbacks
     level_state.loaded = false
     level_state.callbacks = {}

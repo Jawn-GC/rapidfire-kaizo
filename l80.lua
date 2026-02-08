@@ -1,12 +1,12 @@
 local level_var = {
-    identifier = "l72",
-    title = "Floor 72",
+    identifier = "l80",
+    title = "Floor 80",
     theme = THEME.SUNKEN_CITY,
     world = 1,
-	level = 72,
+	level = 80,
 	width = 3,
     height = 3,
-    file_name = "l72.lvl",
+    file_name = "l80.lvl",
 }
 
 local level_state = {
@@ -49,7 +49,17 @@ level_var.load_level = function()
 	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
 		entity.flags = set_flag(entity.flags, 6)
     end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_THORN_VINE)
-	
+
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function(entity, spawn_flags)
+		entity:destroy()
+	end, SPAWN_TYPE.ANY, 0, ENT_TYPE.FLOOR_DOOR_PLATFORM)
+
+	level_state.callbacks[#level_state.callbacks+1] = set_post_entity_spawn(function (entity)
+        entity:tame(true)
+		entity.health = 1
+		entity.flags = set_flag(entity.flags, ENT_FLAG.FACING_LEFT)
+    end, SPAWN_TYPE.ANY, 0, ENT_TYPE.MOUNT_ROCKDOG)
+
 	local frames = 0
 	level_state.callbacks[#level_state.callbacks+1] = set_callback(function ()
 		frames = frames + 1
