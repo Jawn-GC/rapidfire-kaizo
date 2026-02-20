@@ -1,11 +1,11 @@
 meta = {
     name = 'Rapidfire Kaizo',
-	description = "70 Quick Kaizo Levels",
-    version = '1.4',
+	description = "100 Quick Kaizo Levels",
+    version = '2.0',
     author = 'JawnGC',
 }
-
-register_option_int("level_selected", "Level number for shortcut door (1 to 70)", 1, 1, 70)
+register_option_int("level_selected", "Level number for shortcut door (1 to 100)", 1, 1, 100)
+register_option_bool("random_order", "Randomize Level Order", false)
 
 local level_sequence = require("LevelSequence/level_sequence")
 local telescopes = require("Telescopes/telescopes")
@@ -16,6 +16,7 @@ local horizontal_forcefields = require('horizontal_forcefields')
 local olmec_pillars = require('olmec_pillars')
 local blockchain_and_firebug = require("blockchain_and_firebug")
 local kaizo_block = require("kaizo_block")
+local on_off_switch = require("on_off_switch")
 
 local update_continue_door_enabledness
 local force_save
@@ -23,7 +24,7 @@ local save_data
 local save_context
 
 --Levels
-local number_of_levels = 70
+local number_of_levels = 85
 local level_base_name = "l"
 
 local levels = {}
@@ -31,6 +32,30 @@ for i = 1, number_of_levels do
     local level = require(level_base_name .. i)
     table.insert(levels, level)
 end
+level_sequence.set_levels(levels)
+
+local function shuffle_levels(levels)
+	local shuffled = {}
+	for i, v in ipairs(levels) do
+		shuffled[i] = v
+	end
+
+	for i = #shuffled, 2, -1 do
+		local j = math.random(i)
+		shuffled[i], shuffled[j] = shuffled[j], shuffled[i]
+	end
+
+	return shuffled
+end
+
+set_callback(function()
+	if options.random_order then
+		level_sequence.set_levels(shuffle_levels(levels))
+	else
+		level_sequence.set_levels(levels)
+	end
+end, ON.CAMP)
+
 level_sequence.set_levels(levels)
 
 --Do not spawn Ghost
@@ -102,7 +127,7 @@ end, "centered_lava")
 
 define_tile_code("m_arrow")
 set_pre_tile_code_callback(function(x, y, layer)
-	local block_id = spawn(ENT_TYPE.ITEM_METAL_ARROW, x, y, layer, 0, 0)
+	local block_id = spawn_entity_snapped_to_floor(ENT_TYPE.ITEM_METAL_ARROW, x, y, layer, 0, 0)
 	return true
 end, "m_arrow")
 
@@ -141,15 +166,7 @@ local freeze_ray
 set_pre_tile_code_callback(function(x, y, layer)
 	local block_id = spawn_entity_snapped_to_floor(ENT_TYPE.ITEM_FREEZERAY, x, y, layer, 0, 0)
 	return true
-end, "freezeray")
-
-define_tile_code("pp")
-local pp
-set_pre_tile_code_callback(function(x, y, layer)
-	local block_id = spawn_entity_snapped_to_floor(ENT_TYPE.ITEM_POWERPACK, x, y, layer, 0, 0)		
-	pp = get_entity(block_id)
-	return true
-end, "pp")	
+end, "freezeray")	
 
 define_tile_code("shot_gun")
 set_pre_tile_code_callback(function(x, y, layer)
@@ -210,6 +227,17 @@ set_pre_tile_code_callback(function(x, y, layer)
 	local block_id = spawn_entity_snapped_to_floor(ENT_TYPE.ITEM_METAL_SHIELD, x, y, layer, 0, 0)		
 	return true
 end, "metal_shield")
+
+define_tile_code("large_pushblock")
+set_pre_tile_code_callback(function(x, y, layer)
+	local block_id = spawn_entity_snapped_to_floor(ENT_TYPE.ACTIVEFLOOR_PUSHBLOCK, x+0.5, y, layer, 0, 0)
+	local block = get_entity(block_id)
+	block.hitboxx = block.hitboxx * 2
+	block.hitboxy = block.hitboxy * 2
+	block.width = block.width * 2
+	block.height = block.height * 2
+	return true
+end, "large_pushblock")
 
 level_sequence.set_on_win(function(attempts, total_time)
 	local frames = total_time
