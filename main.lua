@@ -24,7 +24,7 @@ local save_data
 local save_context
 
 --Levels
-local number_of_levels = 85
+local number_of_levels = 91
 local level_base_name = "l"
 
 local levels = {}
@@ -197,12 +197,6 @@ set_pre_tile_code_callback(function(x, y, layer)
 	local block_id = spawn_entity_snapped_to_floor(ENT_TYPE.ITEM_WOODEN_ARROW, x, y, layer, 0, 0)
 	return true
 end, "wooden_arrow")
-
-define_tile_code("pickaxe")
-set_pre_tile_code_callback(function(x, y, layer)
-	local block_id = spawn_entity_snapped_to_floor(ENT_TYPE.ITEM_MATTOCK, x, y, layer, 0, 0)
-	return true
-end, "pickaxe")
 
 define_tile_code("xbow")
 set_pre_tile_code_callback(function(x, y, layer)

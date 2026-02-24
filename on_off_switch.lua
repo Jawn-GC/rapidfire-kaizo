@@ -4,11 +4,11 @@ local switch_state = true -- true is ON, false is OFF
 local switch_cooldown = 0 -- frames
 local switch_entities = {}
 local block_entities = {}
-local allowed_triggers = {
-	ENT_TYPE.ITEM_ROCK,
-	ENT_TYPE.ITEM_POT,
-	ENT_TYPE.ITEM_EGGPLANT
-}
+-- local allowed_triggers = {
+	-- ENT_TYPE.ITEM_ROCK,
+	-- ENT_TYPE.ITEM_POT,
+	-- ENT_TYPE.ITEM_EGGPLANT
+-- }
 
 local function create_custom_texture(filename)
 	local tex_def = TextureDefinition.new()
@@ -93,7 +93,7 @@ local function toggle_switches()
 				ent.flags = clr_flag(ent.flags, ENT_FLAG.INTERACT_WITH_WATER)
 				ent.color.a = 0.35
 				add_entity_to_liquid_collision(uid, false)
-			end
+			end	
 		else
 			table.remove(block_entities, i)
 		end
@@ -118,7 +118,7 @@ set_pre_tile_code_callback(function(x, y, layer)
     trigger.hitboxy = 0.05
     trigger.offsetx = 0
     trigger.offsety = 0
-	ent.user_data = { bonk_detector_uid = trigger.uid }
+	ent.user_data = {bonk_detector_uid = trigger.uid}
 	set_pre_collision2(trigger.uid, function(ent, collider) -- For bonking the underside of the switch
 		if switch_cooldown > 0 then
 			return false
